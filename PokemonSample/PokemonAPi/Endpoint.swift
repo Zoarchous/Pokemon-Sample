@@ -16,9 +16,9 @@ extension Endpoint {
     var path: String {
         switch self {
         case .pokemon:
-            return "pokemon"
+            return "/api/v2/pokemon"
         case .detail(let name):
-            return "pokemon/\(name)"
+            return "/api/v2/pokemon/\(name)"
         }
     }
     
@@ -36,14 +36,16 @@ extension Endpoint {
     var url: URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
-        urlComponents.host = "pokeapi.co/api/v2/"
+        urlComponents.host = "pokeapi.co"
         urlComponents.path = path
         
         var requestQueryItems = [URLQueryItem]()
         queryItems?.forEach { item in
             requestQueryItems.append(URLQueryItem(name: item.key, value: item.value))
         }
-        urlComponents.queryItems = requestQueryItems
+        if !requestQueryItems.isEmpty{
+            urlComponents.queryItems = requestQueryItems
+        }
         print(urlComponents.url!)
         return urlComponents.url
     }

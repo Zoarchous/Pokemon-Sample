@@ -16,12 +16,16 @@ class NetworkingManagerImpl: NetworkingManager {
     
     static let shared = NetworkingManagerImpl()
     
-    private init() {}
+    private init() {
+        print("Manager init")
+    }
     
     func request<T>(session: URLSession, _ endpoint: Endpoint, type: T.Type) async throws -> T where T : Decodable, T : Encodable {
+        print("Request Started")
         guard let url = endpoint.url else {
             throw NetworkingError.invalidUrl
         }
+        print(url)
         let request = buildRequest(from: url)
         let (data, response) = try await session.data(for: request)
         
@@ -38,6 +42,7 @@ class NetworkingManagerImpl: NetworkingManager {
     }
     
     func request(session: URLSession, _ endpoint: Endpoint) async throws {
+        print("Called simple request")
         guard let url = endpoint.url else {
             throw NetworkingError.invalidUrl
         }

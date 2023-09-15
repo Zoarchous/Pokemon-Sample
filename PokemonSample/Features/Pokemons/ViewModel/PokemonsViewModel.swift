@@ -27,6 +27,7 @@ final class PokemonViewModel: ObservableObject {
     }
     
     init(networkingManager: NetworkingManager = NetworkingManagerImpl.shared) {
+        print("VM Initialized")
         self.networkingManager = networkingManager
     }
     
@@ -36,7 +37,7 @@ final class PokemonViewModel: ObservableObject {
         reset()
         viewState = .loading
         defer {viewState = .finished }
-        
+        print("Called fetch")
         do {
             let response = try await networkingManager.request(session: .shared, .pokemon(offset: offset), type: PokemonsResponse.self)
             let pokemonsList: [Pokemon] = response.results
@@ -54,19 +55,20 @@ final class PokemonViewModel: ObservableObject {
             }
             self.pokemons = pokemons
         } catch {
+            print(error)
             self.hasError = true
             if let networkingError = error as? NetworkingManagerImpl.NetworkingError {
                 self.error = networkingError
             } else {
                 self.error = .custom(error: error)
             }
+
         }
     }
     
     @MainActor
     func fetxhNextPage() async {
         guard hasNextPage else { return }
-        
         viewState = .fetching
         defer { viewState = .finished }
         
@@ -98,8 +100,8 @@ final class PokemonViewModel: ObservableObject {
         }
     }
     
-    func hasReachedEnd() -> Bool {
-        self.hasNextPage
+    func hasReachedEnd(of pokemon: PokemonDetail) -> Bool {
+        pokemons.last?.id == pokemon.id
     }
 }
 
