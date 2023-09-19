@@ -33,6 +33,9 @@ class NetworkingManagerImpl: NetworkingManager {
         }
         let decoder = JSONDecoder()
         let res = try decoder.decode(T.self, from: data)
+        if res is PokemonDetail {
+            (res as! PokemonDetail).store()
+        }
         return res
     }
     

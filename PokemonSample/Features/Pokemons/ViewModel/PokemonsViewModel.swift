@@ -79,6 +79,15 @@ final class PokemonViewModel: ObservableObject {
     }
     
     @MainActor
+    func fetchPokemonsFromDB() {
+        reset()
+        viewState = .loading
+        defer {
+            viewState = .finished
+        }
+    }
+    
+    @MainActor
     func fetxhNextPage() async {
         guard hasNextPage else { return }
         viewState = .fetching

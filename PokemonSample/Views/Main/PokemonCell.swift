@@ -12,7 +12,7 @@ struct PokemonCell: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text(pokemon.name)
+                Text(pokemon.name.capitalized)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding(.top, 4)

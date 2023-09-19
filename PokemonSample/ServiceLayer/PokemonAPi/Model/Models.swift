@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 struct Pokemon: Codable, Equatable{
     let name: String
@@ -25,7 +26,28 @@ struct PokemonDetail: Codable, Identifiable {
         types[0].type.name
     }
     let stats: [StatElement]
-    let weight, height: Int
+    let weight: Int
+    var weightKg: String {
+        let value = Float(weight) / 100
+        return String(format: "%.2f", value)
+    }
+    let height: Int
+    var heightCm: String {
+        let value = Float(height) * 10
+        return String(format: "%.2f", value)
+    }
+    static let database = CoreDataManager.shared
+    
+    func store() {
+        guard let pokemonInfo = PokemonDetail.database.add(type: PokemonCoreDetail.self) else { return }
+        pokemonInfo.name = name
+        pokemonInfo.primaryType = primaryType
+        pokemonInfo.image = image
+        pokemonInfo.weight = weightKg
+        pokemonInfo.height = heightCm
+        pokemonInfo.id = id
+        PokemonDetail.database.save()
+    }
 }
 
 extension PokemonDetail {
@@ -67,12 +89,21 @@ extension PokemonDetail {
     }
 }
 
+enum NeededStats: String, CaseIterable {
+    case Hp
+    case Attack
+    case Defense
+}
+
 struct StatElement: Codable {
     let base_stat: Int
     var statValue: Float {
         Float(base_stat) / 100.0
     }
     let stat: Stat
+    var statName: String {
+        stat.name
+    }
 }
 
 struct Stat: Codable {
