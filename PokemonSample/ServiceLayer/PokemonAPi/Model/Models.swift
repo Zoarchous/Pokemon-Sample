@@ -24,6 +24,7 @@ struct PokemonDetail: Codable, Identifiable {
     var primaryType: String {
         types[0].type.name
     }
+    let stats: [StatElement]
     let weight, height: Int
 }
 
@@ -44,6 +45,7 @@ extension PokemonDetail {
             name: "Bulbsaur",
             sprites: Sprites(frontDefault: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"),
             types: [TypeElement(type: Species(name: "grass"))],
+            stats: [StatElement(base_stat: 45, stat: Stat(name: "hp")), StatElement(base_stat: 35, stat: Stat(name: "Attack")), StatElement(base_stat: 45, stat: Stat(name: "Defense"))],
             weight: 69,
             height: 7)
     }
@@ -63,6 +65,18 @@ extension PokemonDetail {
         default: return Color.indigo
         }
     }
+}
+
+struct StatElement: Codable {
+    let base_stat: Int
+    var statValue: Float {
+        Float(base_stat) / 100.0
+    }
+    let stat: Stat
+}
+
+struct Stat: Codable {
+    let name: String
 }
 
 struct TypeElement: Codable {

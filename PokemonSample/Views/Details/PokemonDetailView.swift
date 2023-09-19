@@ -63,6 +63,21 @@ struct PokemonDetailView: View {
                             .offset(y: 10)
                         Text("Height: \(pokemon.height)")
                             .offset(y: 16)
+                        Text("Stats:")
+                            .font(.headline)
+                            .bold()
+                            .frame(width: geometry.size.width, alignment: .leading)
+                            .offset(y: 26)
+                            .padding(.leading, 23)
+                        ForEach(pokemon.stats, id: \.stat.name) { stat in
+                            if(NeededStats.allCases.contains(where: {
+                                $0.rawValue == stat.stat.name.capitalized
+                            })) {
+                                PokemonStatRow(stat: stat)
+                            }
+                        }
+                        .offset(y: 36)
+                        .padding(.trailing, 16)
                     }
                     .offset(y: 50)
                 }
@@ -70,6 +85,12 @@ struct PokemonDetailView: View {
             }
         }
     }
+}
+
+enum NeededStats: String, CaseIterable {
+    case Hp
+    case Attack
+    case Defense
 }
 
 struct PokemonDetailView_Previews: PreviewProvider {

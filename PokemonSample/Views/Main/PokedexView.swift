@@ -65,6 +65,7 @@ struct PokedexView: View {
                 }
             }
         }
+        .tint(.black)
         .task {
             if !hasAppeared {
                 await vm.fetchPokemons()
