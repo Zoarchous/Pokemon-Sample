@@ -13,16 +13,16 @@ struct Pokemon: Codable, Equatable{
     let url: String
 }
 
-struct PokemonDetail: Codable, Identifiable, Equatable {
+struct PokemonDetail: Codable, Identifiable {
     let id: Int
     let name: String
-    private let sprites: Sprites
+    let sprites: Sprites
     var image: String {
-        sprites.front_default
+        sprites.frontDefault
     }
-    private let types: [Types]
-    var type: String {
-        types[0].name
+    let types: [TypeElement]
+    var primaryType: String {
+        types[0].type.name
     }
     let weight, height: Int
 }
@@ -42,21 +42,48 @@ extension PokemonDetail {
         PokemonDetail(
             id: 1,
             name: "Bulbsaur",
-            sprites: Sprites(front_default: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"),
-            types: [Types(name: "grass")],
+            sprites: Sprites(frontDefault: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"),
+            types: [TypeElement(type: Species(name: "grass"))],
             weight: 69,
             height: 7)
     }
 }
 
 extension PokemonDetail {
-    struct Types: Codable, Equatable {
-        let name: String
+    func backgroundColor(forType type: String) -> Color {
+        switch type {
+        case "fire": return Color.red
+        case "grass", "poison", "bug": return Color.green
+        case "water", "flying": return Color.blue
+        case "electric": return Color.yellow
+        case "ground": return Color.brown
+        case "normal": return Color.gray
+        case "fairy": return Color.pink
+        case "psychic": return Color.purple
+        default: return Color.indigo
+        }
     }
 }
 
-extension PokemonDetail {
-    struct Sprites: Codable, Equatable{
-        let front_default: String
+struct TypeElement: Codable {
+    let type: Species
+}
+
+
+struct Species: Codable {
+    let name: String
+}
+
+
+class Sprites: Codable {
+    let frontDefault: String
+    
+    enum CodingKeys: String, CodingKey {
+        case frontDefault = "front_default"
+    }
+    
+    init(frontDefault: String) {
+        self.frontDefault = frontDefault
     }
 }
+

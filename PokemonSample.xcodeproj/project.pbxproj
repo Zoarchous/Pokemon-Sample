@@ -163,9 +163,8 @@
 		CEA68DFC2AB32359007CE16B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CEA68E032AB333D0007CE16B /* PokemonCell.swift */,
-				CEA68E052AB33791007CE16B /* PokedexView.swift */,
-				CEA68E362AB4AB16007CE16B /* PokemonDetailView.swift */,
+				CECD72392AB87DCD001DB34E /* Details */,
+				CECD72382AB87DBA001DB34E /* Main */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,6 +294,23 @@
 				CEA68E302AB4A7E5007CE16B /* UITestingHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CECD72382AB87DBA001DB34E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				CEA68E032AB333D0007CE16B /* PokemonCell.swift */,
+				CEA68E052AB33791007CE16B /* PokedexView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		CECD72392AB87DCD001DB34E /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				CEA68E362AB4AB16007CE16B /* PokemonDetailView.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

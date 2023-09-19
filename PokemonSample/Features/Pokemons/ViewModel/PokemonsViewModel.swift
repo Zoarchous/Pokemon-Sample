@@ -28,24 +28,33 @@ final class PokemonViewModel: ObservableObject {
     
     init(networkingManager: NetworkingManager = NetworkingManagerImpl.shared) {
         print("VM Initialized")
+        
         self.networkingManager = networkingManager
     }
-    
     
     @MainActor
     func fetchPokemons() async {
         reset()
         viewState = .loading
-        defer {viewState = .finished }
-        print("Called fetch")
+        defer {
+            viewState = .finished
+        }
         do {
             let response = try await networkingManager.request(session: .shared, .pokemon(offset: offset), type: PokemonsResponse.self)
             let pokemonsList: [Pokemon] = response.results
             var pokemons: [PokemonDetail] = []
+            let myGroup = DispatchGroup()
             pokemonsList.forEach { poke in
+                myGroup.enter()
                 Task {
-                    let itemResponse = try await networkingManager.request(session: .shared, .detail(name: poke.name), type: PokemonDetail.self)
-                    pokemons.append(itemResponse)
+                    do {
+                        let itemResponse = try await networkingManager.request(session: .shared, .detail(name: poke.name), type: PokemonDetail.self)
+                        pokemons.append(itemResponse)
+                    } catch {
+                        print(error)
+                        return
+                    }
+                    myGroup.leave()
                 }
             }
             if response.next != nil {
@@ -53,7 +62,10 @@ final class PokemonViewModel: ObservableObject {
             } else {
                 self.hasNextPage = false
             }
-            self.pokemons = pokemons
+            myGroup.notify(queue: .main) {
+                print(pokemons)
+                self.pokemons = pokemons.sorted { $0.id < $1.id }
+            }
         } catch {
             print(error)
             self.hasError = true
@@ -62,7 +74,7 @@ final class PokemonViewModel: ObservableObject {
             } else {
                 self.error = .custom(error: error)
             }
-
+            
         }
     }
     
@@ -77,11 +89,13 @@ final class PokemonViewModel: ObservableObject {
         do {
             let response = try await networkingManager.request(session: .shared, .pokemon(offset: offset), type: PokemonsResponse.self)
             let pokemonsList: [Pokemon] = response.results
-            var pokemons: [PokemonDetail] = []
+            let myGroup = DispatchGroup()
             pokemonsList.forEach { poke in
+                myGroup.enter()
                 Task {
                     let itemResponse = try await networkingManager.request(session: .shared, .detail(name: poke.name), type: PokemonDetail.self)
-                    pokemons.append(itemResponse)
+                    self.pokemons.append(itemResponse)
+                    myGroup.leave()
                 }
             }
             if response.next != nil {
@@ -89,7 +103,9 @@ final class PokemonViewModel: ObservableObject {
             } else {
                 self.hasNextPage = false
             }
-            self.pokemons = pokemons
+            myGroup.notify(queue: .main) {
+                
+            }
         } catch {
             self.hasError = true
             if let networkingError = error as? NetworkingManagerImpl.NetworkingError {
@@ -103,6 +119,7 @@ final class PokemonViewModel: ObservableObject {
     func hasReachedEnd(of pokemon: PokemonDetail) -> Bool {
         pokemons.last?.id == pokemon.id
     }
+    
 }
 
 
@@ -120,7 +137,7 @@ private extension PokemonViewModel {
             pokemons.removeAll()
             offset = 0
             hasNextPage = true
-            viewState = nil
+            viewState = .loading
         }
     }
 }

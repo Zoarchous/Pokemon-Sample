@@ -31,16 +31,13 @@ struct PokedexView: View {
     var body: some View {
         NavigationView {
             if vm.isLoading {
-                let _ = print("Loading")
                 ProgressView()
             } else {
-                let _ = print("Drawing screen")
                 ScrollView {
                     LazyVGrid(columns: gridItems, spacing: 20) {
                         ForEach(vm.pokemons, id: \.id) { pokemon in
-                            let _ = print("Pokemon - \(pokemon.name)")
                             NavigationLink {
-                                PokemonDetailView()
+                                PokemonDetailView(pokemon: pokemon)
                             } label: {
                                 PokemonCell(pokemon: pokemon)
                                     .accessibilityIdentifier("item_\(pokemon.id)")
@@ -52,11 +49,14 @@ struct PokedexView: View {
                             }
                         }
                     }
-                    .padding()
+                    .padding(10)
                     .accessibilityIdentifier("pokemonsGrid")
                 }
+                .navigationTitle("Pokedex")
                 .refreshable {
-                    await vm.fetchPokemons()
+                    if !vm.isFetching && !vm.isLoading{
+                        await vm.fetchPokemons()
+                    }
                 }
                 .overlay(alignment: .bottom) {
                     if vm.isFetching {
@@ -65,7 +65,6 @@ struct PokedexView: View {
                 }
             }
         }
-        .navigationTitle("Pokedex")
         .task {
             if !hasAppeared {
                 await vm.fetchPokemons()

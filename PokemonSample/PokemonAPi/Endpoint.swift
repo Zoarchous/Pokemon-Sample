@@ -46,7 +46,6 @@ extension Endpoint {
         if !requestQueryItems.isEmpty{
             urlComponents.queryItems = requestQueryItems
         }
-        print(urlComponents.url!)
         return urlComponents.url
     }
 }

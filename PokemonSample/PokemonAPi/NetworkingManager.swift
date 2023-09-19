@@ -21,28 +21,22 @@ class NetworkingManagerImpl: NetworkingManager {
     }
     
     func request<T>(session: URLSession, _ endpoint: Endpoint, type: T.Type) async throws -> T where T : Decodable, T : Encodable {
-        print("Request Started")
         guard let url = endpoint.url else {
             throw NetworkingError.invalidUrl
         }
-        print(url)
         let request = buildRequest(from: url)
         let (data, response) = try await session.data(for: request)
-        
         guard let response = response as? HTTPURLResponse,
               (200...300) ~= response.statusCode else {
             let statusCode = (response as! HTTPURLResponse).statusCode
             throw NetworkingError.invalidStatusCode(statusCode: statusCode)
         }
-        
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         let res = try decoder.decode(T.self, from: data)
         return res
     }
     
     func request(session: URLSession, _ endpoint: Endpoint) async throws {
-        print("Called simple request")
         guard let url = endpoint.url else {
             throw NetworkingError.invalidUrl
         }

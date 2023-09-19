@@ -18,7 +18,7 @@ struct PokemonCell: View {
                     .padding(.top, 4)
                     .padding(.leading)
                 HStack {
-                    Text(pokemon.type.capitalized)
+                    Text(pokemon.primaryType)
                         .font(.subheadline)
                         .bold()
                         .foregroundColor(.white)
@@ -44,9 +44,9 @@ struct PokemonCell: View {
                 }
             }
         }
-        .background(Color.green)
+        .background(pokemon.backgroundColor(forType: pokemon.primaryType))
         .cornerRadius(12)
-        .shadow(color: .green, radius: 6, x: 0.0, y: 0.0)
+        .shadow(color: pokemon.backgroundColor(forType: pokemon.primaryType), radius: 6, x: 0.0, y: 0.0)
     }
 }
 
