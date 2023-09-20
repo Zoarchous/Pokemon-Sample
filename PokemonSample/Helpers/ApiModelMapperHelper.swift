@@ -14,7 +14,7 @@ class ApiModelMapperHelper {
     private static let database = CoreDataManager.shared
     
     func mapAndSaveApiModel(apiModel: PokemonDetail) {
-        guard let pokemonInfo = Self.database.add(type: PokemonCoreDetail.self) else { return }
+        guard let pokemonInfo = ApiModelMapperHelper.database.add(type: PokemonCoreDetail.self) else { return }
         pokemonInfo.name = apiModel.name
         pokemonInfo.id = Int16(apiModel.id)
         pokemonInfo.height = {
@@ -28,20 +28,22 @@ class ApiModelMapperHelper {
         pokemonInfo.primaryType = apiModel.types[0].type.name
         pokemonInfo.image = apiModel.sprites.frontDefault
         pokemonInfo.stats = mapStats(stats: apiModel.stats)
-        Self.database.save()
+//        print(pokemonInfo)
+        ApiModelMapperHelper.database.save()
     }
     
     private func mapStats(stats: [StatElement]) -> [StatItem] {
-        guard let pokemonStat = Self.database.add(type: StatItem.self) else { return [] }
-        let c = stats.compactMap { it in
+        var statList: [StatItem] = []
+        stats.forEach { it in
             if [NeededStats.Hp.rawValue, NeededStats.Attack.rawValue, NeededStats.Defense.rawValue].contains(it.statName.capitalized) {
+                guard let pokemonStat = ApiModelMapperHelper.database.add(type: StatItem.self) else { return }
                 pokemonStat.statName = it.statName
                 pokemonStat.statValue = it.statValue
-                return pokemonStat
+                statList.append(pokemonStat)
             }
-            return nil
         }
-        return c
+        print(statList)
+        return statList
     }
 }
 

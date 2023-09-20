@@ -49,6 +49,7 @@ final class PokemonViewModel: ObservableObject {
                 Task {
                     do {
                         let itemResponse = try await networkingManager.request(session: .shared, .detail(name: poke.name), type: PokemonDetail.self)
+                        itemResponse.store()
                         pokemons.append(itemResponse)
                     } catch {
                         print(error)

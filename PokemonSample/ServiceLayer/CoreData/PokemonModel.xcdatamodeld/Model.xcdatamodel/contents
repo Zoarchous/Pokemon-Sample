@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PokemonCoreDetail" representedClassName=".PokemonCoreDetail" syncable="YES">
+        <attribute name="height" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="primaryType" optional="YES" attributeType="String"/>
+        <attribute name="stats" optional="YES" attributeType="Transformable"/>
+        <attribute name="weight" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="StatItem" representedClassName=".StatItem" syncable="YES">
+        <attribute name="statName" optional="YES" attributeType="String"/>
+        <attribute name="statValue" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+</model>
