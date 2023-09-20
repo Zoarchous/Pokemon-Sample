@@ -39,6 +39,7 @@ class CoreDataManager {
         do {
             try viewContext.save()
         } catch {
+            print("saving error!")
             print(error.localizedDescription)
         }
     }

@@ -63,7 +63,6 @@ final class PokemonViewModel: ObservableObject {
                 self.hasNextPage = false
             }
             myGroup.notify(queue: .main) {
-                print(pokemons)
                 self.pokemons = pokemons.sorted { $0.id < $1.id }
             }
         } catch {

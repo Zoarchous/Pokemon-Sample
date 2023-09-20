@@ -15,7 +15,7 @@ class CoreDataStack {
     let mainContext: NSManagedObjectContext
     
     private init() {
-        self.persistentContainer = NSPersistentContainer(name: "PokemonDetails")
+        self.persistentContainer = NSPersistentContainer(name: "PokemonModel")
         let description = persistentContainer.persistentStoreDescriptions.first
         description?.type = NSSQLiteStoreType
         

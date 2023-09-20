@@ -18,7 +18,7 @@ struct PokemonCell: View {
                     .padding(.top, 4)
                     .padding(.leading)
                 HStack {
-                    Text(pokemon.primaryType)
+                    Text(pokemon.types[0].type.name)
                         .font(.subheadline)
                         .bold()
                         .foregroundColor(.white)
@@ -30,7 +30,7 @@ struct PokemonCell: View {
                         )
                         .frame(width: 100, height: 24)
                     
-                    AsyncImage(url: .init(string: pokemon.image)) {image in
+                    AsyncImage(url: .init(string: pokemon.sprites.frontDefault)) { image in
                         image
                             .resizable()
                             .scaledToFit()
@@ -44,9 +44,9 @@ struct PokemonCell: View {
                 }
             }
         }
-        .background(pokemon.backgroundColor(forType: pokemon.primaryType))
+        .background(pokemon.backgroundColor(forType: pokemon.types[0].type.name))
         .cornerRadius(12)
-        .shadow(color: pokemon.backgroundColor(forType: pokemon.primaryType), radius: 6, x: 0.0, y: 0.0)
+        .shadow(color: pokemon.backgroundColor(forType: pokemon.types[0].type.name), radius: 6, x: 0.0, y: 0.0)
     }
 }
 
