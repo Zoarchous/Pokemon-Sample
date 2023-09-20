@@ -8,7 +8,7 @@
 import Foundation
 
 final class PokemonViewModel: ObservableObject {
-    @Published private(set) var pokemons: [PokemonDetail] = []
+    @Published private(set) var pokemons: [PokemonUIModel] = []
     @Published private(set) var error: NetworkingManagerImpl.NetworkingError?
     @Published private(set) var viewState: ViewState?
     @Published var hasError = false
@@ -17,6 +17,7 @@ final class PokemonViewModel: ObservableObject {
     private(set) var hasNextPage: Bool = true
     
     private let networkingManager: NetworkingManager!
+    private let uiModelMapper: UiModelMapper!
     
     var isLoading: Bool {
         viewState == .loading
@@ -26,9 +27,9 @@ final class PokemonViewModel: ObservableObject {
         viewState == .fetching
     }
     
-    init(networkingManager: NetworkingManager = NetworkingManagerImpl.shared) {
+    init(networkingManager: NetworkingManager = NetworkingManagerImpl.shared, uiModelMapper: UiModelMapper = UiModelMapper.shared) {
         print("VM Initialized")
-        
+        self.uiModelMapper = uiModelMapper
         self.networkingManager = networkingManager
     }
     
@@ -64,7 +65,8 @@ final class PokemonViewModel: ObservableObject {
                 self.hasNextPage = false
             }
             myGroup.notify(queue: .main) {
-                self.pokemons = pokemons.sorted { $0.id < $1.id }
+                let sortedList =  pokemons.sorted { $0.id < $1.id }
+                self.pokemons = self.uiModelMapper.mapApiModelList(apiModelList: sortedList)
             }
         } catch {
             print(error)
@@ -103,7 +105,7 @@ final class PokemonViewModel: ObservableObject {
                 myGroup.enter()
                 Task {
                     let itemResponse = try await networkingManager.request(session: .shared, .detail(name: poke.name), type: PokemonDetail.self)
-                    self.pokemons.append(itemResponse)
+                    self.pokemons.append(uiModelMapper.mapApiModel(apiModel: itemResponse))
                     myGroup.leave()
                 }
             }
@@ -125,7 +127,7 @@ final class PokemonViewModel: ObservableObject {
         }
     }
     
-    func hasReachedEnd(of pokemon: PokemonDetail) -> Bool {
+    func hasReachedEnd(of pokemon: PokemonUIModel) -> Bool {
         pokemons.last?.id == pokemon.id
     }
     

@@ -35,6 +35,8 @@
 		CECD72502ABAE8E4001DB34E /* ApiModelMapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD724F2ABAE8E4001DB34E /* ApiModelMapperHelper.swift */; };
 		CECD72602ABB08A5001DB34E /* PokemonCoreDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD725F2ABB08A5001DB34E /* PokemonCoreDetail.swift */; };
 		CECD72642ABB0B9E001DB34E /* PokemonModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CECD72622ABB0B9E001DB34E /* PokemonModel.xcdatamodeld */; };
+		CECD72672ABB23C6001DB34E /* UiModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD72662ABB23C6001DB34E /* UiModelMapper.swift */; };
+		CECD726A2ABB240A001DB34E /* PokemonUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD72692ABB240A001DB34E /* PokemonUIModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,8 @@
 		CECD724F2ABAE8E4001DB34E /* ApiModelMapperHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiModelMapperHelper.swift; sourceTree = "<group>"; };
 		CECD725F2ABB08A5001DB34E /* PokemonCoreDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCoreDetail.swift; sourceTree = "<group>"; };
 		CECD72632ABB0B9E001DB34E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		CECD72662ABB23C6001DB34E /* UiModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiModelMapper.swift; sourceTree = "<group>"; };
+		CECD72692ABB240A001DB34E /* PokemonUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonUIModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +142,6 @@
 			children = (
 				CEA68E232AB4A294007CE16B /* UITesting */,
 				CEA68E0F2AB469C5007CE16B /* Features */,
-				CECD724E2ABAE8BB001DB34E /* Helpers */,
 				CECD723F2AB9C2F8001DB34E /* ServiceLayer */,
 				CEA68DFC2AB32359007CE16B /* Views */,
 				CEA68DD22AB32350007CE16B /* PokemonSampleApp.swift */,
@@ -187,6 +190,7 @@
 		CEA68E0A2AB34BAA007CE16B /* PokemonAPi */ = {
 			isa = PBXGroup;
 			children = (
+				CECD724E2ABAE8BB001DB34E /* Helpers */,
 				CEA68E152AB46A12007CE16B /* Model */,
 				CEA68E0B2AB34E06007CE16B /* Endpoint.swift */,
 				CEA68E0D2AB44120007CE16B /* NetworkingManager.swift */,
@@ -205,6 +209,8 @@
 		CEA68E112AB469E7007CE16B /* Pokemons */ = {
 			isa = PBXGroup;
 			children = (
+				CECD72682ABB23F8001DB34E /* Models */,
+				CECD72652ABB23AD001DB34E /* Helpers */,
 				CEA68E132AB46A00007CE16B /* ViewModel */,
 			);
 			path = Pokemons;
@@ -340,6 +346,22 @@
 				CECD724F2ABAE8E4001DB34E /* ApiModelMapperHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CECD72652ABB23AD001DB34E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CECD72662ABB23C6001DB34E /* UiModelMapper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		CECD72682ABB23F8001DB34E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CECD72692ABB240A001DB34E /* PokemonUIModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -482,11 +504,13 @@
 				CECD72602ABB08A5001DB34E /* PokemonCoreDetail.swift in Sources */,
 				CEA68E312AB4A7E5007CE16B /* UITestingHelper.swift in Sources */,
 				CEA68DD32AB32350007CE16B /* PokemonSampleApp.swift in Sources */,
+				CECD72672ABB23C6001DB34E /* UiModelMapper.swift in Sources */,
 				CECD72642ABB0B9E001DB34E /* PokemonModel.xcdatamodeld in Sources */,
 				CEA68E1B2AB4744E007CE16B /* PokemonsViewModel.swift in Sources */,
 				CEA68E0E2AB44120007CE16B /* NetworkingManager.swift in Sources */,
 				CEA68E192AB471A0007CE16B /* PokemonsResponse.swift in Sources */,
 				CEA68E282AB4A4C7007CE16B /* MockURLSessionProtocol.swift in Sources */,
+				CECD726A2ABB240A001DB34E /* PokemonUIModel.swift in Sources */,
 				CEA68E262AB4A3AF007CE16B /* JSONMapper.swift in Sources */,
 				CEA68E062AB33791007CE16B /* PokedexView.swift in Sources */,
 				CEA68E2C2AB4A679007CE16B /* PokemonsNetworkingSuccesMock.swift in Sources */,

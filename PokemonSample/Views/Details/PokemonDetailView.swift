@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PokemonDetailView: View {
-    let pokemon: PokemonDetail
+    let pokemon: PokemonUIModel
     var body: some View {
         VStack {
             HStack(alignment: .top) {
@@ -18,7 +18,7 @@ struct PokemonDetailView: View {
             }
             .ignoresSafeArea(edges: .top)
             .frame(maxWidth: .infinity)
-            .background(LinearGradient(colors: [pokemon.backgroundColor(forType: pokemon.types[0].type.name), pokemon.backgroundColor(forType: pokemon.types[0].type.name).opacity(0.5)], startPoint: .top, endPoint: .bottom))
+            .background(LinearGradient(colors: [pokemon.backgroundColor(forType: pokemon.primaryType), pokemon.backgroundColor(forType: pokemon.primaryType).opacity(0.5)], startPoint: .top, endPoint: .bottom))
             
             GeometryReader { geometry in
                 ZStack {
@@ -33,7 +33,7 @@ struct PokemonDetailView: View {
                 .offset(y: -40)
                 .edgesIgnoringSafeArea(.all)
                 ZStack(alignment: .top) {
-                    AsyncImage(url: .init(string: pokemon.sprites.frontDefault)) { image in
+                    AsyncImage(url: .init(string: pokemon.image)) { image in
                         image
                             .resizable()
                             .frame(width: 250, height: 250)
@@ -48,7 +48,7 @@ struct PokemonDetailView: View {
                         .font(.title)
                         .foregroundColor(.black)
                     VStack {
-                        Text(pokemon.types[0].type.name.capitalized)
+                        Text(pokemon.primaryType.capitalized)
                             .font(.subheadline)
                             .bold()
                             .foregroundColor(.black)
@@ -56,7 +56,7 @@ struct PokemonDetailView: View {
                             .padding(.vertical, 8)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(pokemon.backgroundColor(forType: pokemon.types[0].type.name).opacity(0.5))
+                                    .fill(pokemon.backgroundColor(forType: pokemon.primaryType).opacity(0.5))
                             )
                             .frame(width: 100, height: 24)
                         Text("Weight: \(pokemon.weight) kg.")
@@ -89,6 +89,6 @@ struct PokemonDetailView: View {
 
 struct PokemonDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonDetailView(pokemon: PokemonDetail.fake)
+        PokemonDetailView(pokemon: PokemonUIModel.fake)
     }
 }

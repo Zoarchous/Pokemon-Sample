@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct PokemonStatRow: View {
-    let stat: StatElement
+    let stat: UIStatItem
     var body: some View {
         HStack {
-            Text(stat.stat.name.capitalized).frame(width: 80)
+            Text(stat.statName.capitalized).frame(width: 80)
             Spacer()
-            ProgressBar(value: stat.statValue, color: getColor(forStat: stat.stat.name.capitalized)).frame(height: 20)
+            ProgressBar(value: stat.statValue, color: getColor(forStat: stat.statName.capitalized)).frame(height: 20)
         }.padding()
     }
 }
@@ -31,6 +31,6 @@ extension PokemonStatRow {
 
 struct PokemonStatRow_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonStatRow(stat: PokemonDetail.fake.stats[0])
+        PokemonStatRow(stat: PokemonUIModel.fake.stats[0])
     }
 }

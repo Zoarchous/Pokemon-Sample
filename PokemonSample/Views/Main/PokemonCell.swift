@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PokemonCell: View {
-    let pokemon: PokemonDetail
+    let pokemon: PokemonUIModel
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -18,7 +18,7 @@ struct PokemonCell: View {
                     .padding(.top, 4)
                     .padding(.leading)
                 HStack {
-                    Text(pokemon.types[0].type.name)
+                    Text(pokemon.primaryType.capitalized)
                         .font(.subheadline)
                         .bold()
                         .foregroundColor(.white)
@@ -30,7 +30,7 @@ struct PokemonCell: View {
                         )
                         .frame(width: 100, height: 24)
                     
-                    AsyncImage(url: .init(string: pokemon.sprites.frontDefault)) { image in
+                    AsyncImage(url: .init(string: pokemon.image)) { image in
                         image
                             .resizable()
                             .scaledToFit()
@@ -44,16 +44,16 @@ struct PokemonCell: View {
                 }
             }
         }
-        .background(pokemon.backgroundColor(forType: pokemon.types[0].type.name))
+        .background(pokemon.backgroundColor(forType: pokemon.primaryType))
         .cornerRadius(12)
-        .shadow(color: pokemon.backgroundColor(forType: pokemon.types[0].type.name), radius: 6, x: 0.0, y: 0.0)
+        .shadow(color: pokemon.backgroundColor(forType: pokemon.primaryType), radius: 6, x: 0.0, y: 0.0)
     }
 }
 
 #if DEBUG
 struct PokemonCell_Previews: PreviewProvider {
     static var previews: some View {
-        PokemonCell(pokemon: PokemonDetail.fake)
+        PokemonCell(pokemon: PokemonUIModel.fake)
     }
 }
 #endif
