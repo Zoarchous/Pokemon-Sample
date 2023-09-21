@@ -36,12 +36,15 @@ class UiModelMapper {
     }
     
     func mapDBModel(dbModel: PokemonCoreDetail) -> PokemonUIModel {
-        return PokemonUIModel(id: dbModel.id, name: dbModel.name, image: dbModel.image, primaryType: dbModel.primaryType, weight: dbModel.weight, height: dbModel.height, stats: mapDBStats(stats: dbModel.stats))
+        return PokemonUIModel(id: dbModel.id, name: dbModel.name, image: dbModel.image, primaryType: dbModel.primaryType, weight: dbModel.weight, height: dbModel.height, stats: mapDBStats(modelId: dbModel.id))
     }
     
-    private func mapDBStats (stats: [StatItem]) -> [UIStatItem] {
-        return stats.map { it in
-            UIStatItem(statName: it.statName, statValue: it.statValue)
+    private func mapDBStats (modelId: Int16) -> [UIStatItem] {
+        return CoreDataManager.shared.fetch(type: StatItem.self).compactMap { it in
+            if(it.relatedId == modelId) {
+                return UIStatItem(statName: it.statName, statValue: it.statValue)
+            }
+            return nil
         }
     }
     

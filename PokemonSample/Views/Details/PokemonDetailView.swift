@@ -10,6 +10,7 @@ import SwiftUI
 struct PokemonDetailView: View {
     let pokemon: PokemonUIModel
     var body: some View {
+        let a = print(pokemon.stats)
         VStack {
             HStack(alignment: .top) {
                 Spacer()
@@ -56,7 +57,7 @@ struct PokemonDetailView: View {
                             .padding(.vertical, 8)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .fill(pokemon.backgroundColor(forType: pokemon.primaryType).opacity(0.5))
+                                    .fill(pokemon.backgroundColor(forType: pokemon.primaryType.capitalized).opacity(0.5))
                             )
                             .frame(width: 100, height: 24)
                         Text("Weight: \(pokemon.weight) kg.")
@@ -70,11 +71,7 @@ struct PokemonDetailView: View {
                             .offset(y: 26)
                             .padding(.leading, 23)
                         ForEach(pokemon.stats, id: \.statName) { stat in
-                            if(NeededStats.allCases.contains(where: {
-                                $0.rawValue == stat.statName.capitalized
-                            })) {
                                 PokemonStatRow(stat: stat)
-                            }
                         }
                         .offset(y: 36)
                         .padding(.trailing, 16)

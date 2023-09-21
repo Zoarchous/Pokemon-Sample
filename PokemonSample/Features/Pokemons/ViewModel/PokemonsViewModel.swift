@@ -41,10 +41,14 @@ final class PokemonViewModel: ObservableObject {
             viewState = .finished
         }
         do {
+            print("fetch called")
             let response = try await networkingManager.request(session: .shared, .pokemon(offset: offset), type: PokemonsResponse.self)
             let pokemonsList: [Pokemon] = response.results
             var pokemons: [PokemonDetail] = []
             let myGroup = DispatchGroup()
+            CoreDataManager.shared.resetAllRecords(in: "PokemonCoreDetail")
+            CoreDataManager.shared.resetAllRecords(in: "StatItem")
+            print("vm db clear")
             pokemonsList.forEach { poke in
                 myGroup.enter()
                 Task {
@@ -67,10 +71,11 @@ final class PokemonViewModel: ObservableObject {
             myGroup.notify(queue: .main) {
                 let sortedList =  pokemons.sorted { $0.id < $1.id }
                 self.pokemons = self.uiModelMapper.mapApiModelList(apiModelList: sortedList)
+                self.hasError = false
             }
         } catch {
-            print(error)
             self.hasError = true
+            print("fetch error - \(error)")
             if let networkingError = error as? NetworkingManagerImpl.NetworkingError {
                 self.error = networkingError
             } else {
@@ -81,19 +86,26 @@ final class PokemonViewModel: ObservableObject {
     }
     
     @MainActor
-    func fetchPokemonsFromDB() {
+    func fetchPokemonsFromDB() async {
         reset()
         viewState = .loading
         defer {
             viewState = .finished
         }
+        let pokemonsList = CoreDataManager.shared.fetch(type: PokemonCoreDetail.self).sorted {
+            $0.id < $1.id
+        }
+        self.pokemons = UiModelMapper.shared.mapDBModelList(dbModelList: pokemonsList)
+        hasError = false
     }
     
     @MainActor
     func fetxhNextPage() async {
         guard hasNextPage else { return }
         viewState = .fetching
-        defer { viewState = .finished }
+        defer {
+            viewState = .finished
+        }
         
         offset += 50
         
@@ -115,7 +127,7 @@ final class PokemonViewModel: ObservableObject {
                 self.hasNextPage = false
             }
             myGroup.notify(queue: .main) {
-                
+                self.hasError = false
             }
         } catch {
             self.hasError = true

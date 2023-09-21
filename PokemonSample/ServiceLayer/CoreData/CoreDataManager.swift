@@ -30,6 +30,7 @@ class CoreDataManager {
             let result = try viewContext.fetch(request)
             return result as! [T]
         } catch {
+            print("Fetch error")
             print(error.localizedDescription)
             return[]
         }
@@ -51,6 +52,7 @@ class CoreDataManager {
         do {
             try viewContext.execute(deleteRequest)
             try viewContext.save()
+            print("Db cleared")
         } catch {
             print("An error occured")
         }

@@ -44,9 +44,9 @@ struct PokemonCell: View {
                 }
             }
         }
-        .background(pokemon.backgroundColor(forType: pokemon.primaryType))
+        .background(pokemon.backgroundColor(forType: pokemon.primaryType.capitalized))
         .cornerRadius(12)
-        .shadow(color: pokemon.backgroundColor(forType: pokemon.primaryType), radius: 6, x: 0.0, y: 0.0)
+        .shadow(color: pokemon.backgroundColor(forType: pokemon.primaryType.capitalized), radius: 6, x: 0.0, y: 0.0)
     }
 }
 

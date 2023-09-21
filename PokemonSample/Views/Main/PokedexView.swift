@@ -14,15 +14,12 @@ struct PokedexView: View {
     init () {
 #if DEBUG
         if UITestingHelper.isUITesting {
-            print("called ui test")
             let mock: NetworkingManager = UITestingHelper.isPokemonNetworkingSuccessful ? PokemonsNetworkingSuccessMock() : PokemonsNetworkingFailureMock()
             _vm = StateObject(wrappedValue: PokemonViewModel(networkingManager: mock))
         } else {
-            print("called ui else")
             _vm = StateObject(wrappedValue: PokemonViewModel())
         }
 #else
-        print("Called else")
         _vm = StateObject(wrappedValue: PokemonViewModel())
         vm.fetchPokemons()
 #endif
@@ -32,6 +29,21 @@ struct PokedexView: View {
         NavigationView {
             if vm.isLoading {
                 ProgressView()
+            } else if vm.hasError {
+                VStack {
+                    Text("An error occured")
+                    Button("Refresh") {
+                        Task {
+                            if !vm.isFetching && !vm.isLoading {
+                                if NetworkState.isConnectedToNetwork() {
+                                    await vm.fetchPokemons()
+                                } else {
+                                    await vm.fetchPokemonsFromDB()
+                                }
+                            }
+                        }
+                    }
+                }.navigationTitle("Pokedex")
             } else {
                 ScrollView {
                     LazyVGrid(columns: gridItems, spacing: 20) {
@@ -42,7 +54,7 @@ struct PokedexView: View {
                                 PokemonCell(pokemon: pokemon)
                                     .accessibilityIdentifier("item_\(pokemon.id)")
                                     .task {
-                                        if vm.hasReachedEnd(of: pokemon) && !vm.isFetching {
+                                        if vm.hasReachedEnd(of: pokemon) && !vm.isFetching && NetworkState.isConnectedToNetwork(){
                                             await vm.fetxhNextPage()
                                         }
                                     }
@@ -54,8 +66,12 @@ struct PokedexView: View {
                 }
                 .navigationTitle("Pokedex")
                 .refreshable {
-                    if !vm.isFetching && !vm.isLoading{
-                        await vm.fetchPokemons()
+                    if !vm.isFetching && !vm.isLoading {
+                        if NetworkState.isConnectedToNetwork() {
+                            await vm.fetchPokemons()
+                        } else {
+                            await vm.fetchPokemonsFromDB()
+                        }
                     }
                 }
                 .overlay(alignment: .bottom) {
@@ -68,8 +84,13 @@ struct PokedexView: View {
         .tint(.black)
         .task {
             if !hasAppeared {
-                await vm.fetchPokemons()
-                hasAppeared = true
+                if NetworkState.isConnectedToNetwork(){
+                    await vm.fetchPokemons()
+                    hasAppeared = true
+                } else {
+                    await vm.fetchPokemonsFromDB()
+                    hasAppeared = true
+                }
             }
         }
     }

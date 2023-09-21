@@ -37,6 +37,7 @@
 		CECD72642ABB0B9E001DB34E /* PokemonModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CECD72622ABB0B9E001DB34E /* PokemonModel.xcdatamodeld */; };
 		CECD72672ABB23C6001DB34E /* UiModelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD72662ABB23C6001DB34E /* UiModelMapper.swift */; };
 		CECD726A2ABB240A001DB34E /* PokemonUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD72692ABB240A001DB34E /* PokemonUIModel.swift */; };
+		CECD726C2ABB3C08001DB34E /* NetworkState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CECD726B2ABB3C08001DB34E /* NetworkState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		CECD72632ABB0B9E001DB34E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		CECD72662ABB23C6001DB34E /* UiModelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiModelMapper.swift; sourceTree = "<group>"; };
 		CECD72692ABB240A001DB34E /* PokemonUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonUIModel.swift; sourceTree = "<group>"; };
+		CECD726B2ABB3C08001DB34E /* NetworkState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,7 +192,6 @@
 		CEA68E0A2AB34BAA007CE16B /* PokemonAPi */ = {
 			isa = PBXGroup;
 			children = (
-				CECD724E2ABAE8BB001DB34E /* Helpers */,
 				CEA68E152AB46A12007CE16B /* Model */,
 				CEA68E0B2AB34E06007CE16B /* Endpoint.swift */,
 				CEA68E0D2AB44120007CE16B /* NetworkingManager.swift */,
@@ -315,6 +316,7 @@
 		CECD723F2AB9C2F8001DB34E /* ServiceLayer */ = {
 			isa = PBXGroup;
 			children = (
+				CECD724E2ABAE8BB001DB34E /* Helpers */,
 				CECD72402AB9C30E001DB34E /* CoreData */,
 				CEA68E0A2AB34BAA007CE16B /* PokemonAPi */,
 			);
@@ -344,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				CECD724F2ABAE8E4001DB34E /* ApiModelMapperHelper.swift */,
+				CECD726B2ABB3C08001DB34E /* NetworkState.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				CEA68E0E2AB44120007CE16B /* NetworkingManager.swift in Sources */,
 				CEA68E192AB471A0007CE16B /* PokemonsResponse.swift in Sources */,
 				CEA68E282AB4A4C7007CE16B /* MockURLSessionProtocol.swift in Sources */,
+				CECD726C2ABB3C08001DB34E /* NetworkState.swift in Sources */,
 				CECD726A2ABB240A001DB34E /* PokemonUIModel.swift in Sources */,
 				CEA68E262AB4A3AF007CE16B /* JSONMapper.swift in Sources */,
 				CEA68E062AB33791007CE16B /* PokedexView.swift in Sources */,

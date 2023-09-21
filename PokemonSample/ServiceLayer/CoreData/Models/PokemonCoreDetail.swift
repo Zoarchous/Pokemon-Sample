@@ -10,10 +10,10 @@ import CoreData
 public class PokemonCoreDetail: NSManagedObject {
     @NSManaged var id: Int16
     @NSManaged var name, image, primaryType, weight, height: String
-    @NSManaged var stats: [StatItem]
 }
 
 public class StatItem: NSManagedObject {
+    @NSManaged var relatedId: Int16
     @NSManaged var statName: String
     @NSManaged var statValue: Float
 }
