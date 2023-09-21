@@ -10,7 +10,6 @@ import SwiftUI
 struct PokemonDetailView: View {
     let pokemon: PokemonUIModel
     var body: some View {
-        let a = print(pokemon.stats)
         VStack {
             HStack(alignment: .top) {
                 Spacer()
